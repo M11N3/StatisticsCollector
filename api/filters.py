@@ -1,19 +1,12 @@
-from rest_framework import filters
+from django_filters import rest_framework
 
-from .validators import validate_date_format
+from .models import Statistic
 
 
-class DateIntervalFilter(filters.BaseFilterBackend):
-    def filter_queryset(self, request, queryset, view):
-        start_date = request.GET['from'] if "from" in request.GET else None
-        end_date = request.GET['to'] if "to" in request.GET else None
+class DateFilter(rest_framework.FilterSet):
+    date_from = rest_framework.DateTimeFilter(field_name='date', lookup_expr='gte')
+    date_to = rest_framework.DateTimeFilter(field_name='date', lookup_expr='lte')
 
-        if start_date or end_date:
-            if start_date:
-                validate_date_format(start_date)
-                if end_date:
-                    validate_date_format(end_date)
-                    return queryset.filter(date__gte=start_date).exclude(date__gt=end_date)
-                return queryset.filter(date__gte=start_date)
-            return queryset.filter(date__lte=end_date)
-        return queryset
+    class Meta:
+        model = Statistic
+        fields = ['date_from', 'date_to']

@@ -1,3 +1,4 @@
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.permissions import AllowAny
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
@@ -5,8 +6,8 @@ from rest_framework.mixins import CreateModelMixin
 from rest_framework.filters import OrderingFilter
 from rest_framework.status import HTTP_201_CREATED, HTTP_204_NO_CONTENT, HTTP_400_BAD_REQUEST
 
-from .filters import DateIntervalFilter
 from .models import Statistic
+from .filters import DateFilter
 from .serializers import StatisticSerializer
 
 
@@ -15,7 +16,8 @@ class StatisticAPIView(CreateModelMixin, GenericAPIView):
     queryset = Statistic.objects.all()
     serializer_class = StatisticSerializer
 
-    filter_backends = [OrderingFilter, DateIntervalFilter]
+    filter_backends = [DjangoFilterBackend, OrderingFilter]
+    filterset_class = DateFilter
     ordering_fields = ['date', 'cost', 'clicks', 'views', 'cpc', 'cpm']
 
     def get(self, request):
