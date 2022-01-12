@@ -44,12 +44,12 @@ docker-compose up --build --no-deps
     ```
          date_from:     DateField("YYYY-MM_DD")      (Optional)
          date_to:       DateField("YYYY-MM_DD")      (Optional)
-         ordering: Str(<name_ordering_field>)   (Optional)
+         ordering:      Str(<name_ordering_field>)   (Optional)
     ```
     
-    To display statistics for a time interval use the parameters __?from__ (start date) AND __?to__ (end date):
-    The __from__ and __to__ dates are included in the selection.
-    `http://localhost:8000/statistic/?from=<date>&to=<date>`
+    To display statistics for a time interval use the parameters __?date_from__ (start date) AND __?date_to__ (end date):
+    The __date_from__ and __date_to__ dates are included in the selection.
+    `http://localhost:8000/statistic/?date_from=<date>&date_to=<date>`
     
     To sort in ascending order using:
    `http://localhost:8000/statistic/?ordering=<field_name>` 
