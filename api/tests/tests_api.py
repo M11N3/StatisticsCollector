@@ -1,7 +1,7 @@
 from rest_framework.status import HTTP_200_OK, HTTP_201_CREATED, HTTP_204_NO_CONTENT
 from rest_framework.test import APITestCase
 
-from api.models import Event
+from api.models import Statistic
 
 
 class StatisticAPITestCase(APITestCase):
@@ -9,9 +9,9 @@ class StatisticAPITestCase(APITestCase):
     def test_get_all(self):
         url = "/statistic/"
 
-        Event.objects.create(date="2022-01-01")
-        Event.objects.create(date="2022-01-02")
-        Event.objects.create(date="2022-01-03")
+        Statistic.objects.create(date="2022-01-01")
+        Statistic.objects.create(date="2022-01-02")
+        Statistic.objects.create(date="2022-01-03")
 
         response = self.client.get(url)
 
@@ -19,11 +19,11 @@ class StatisticAPITestCase(APITestCase):
         self.assertEqual(len(response.data), 3)
 
     def test_get_with_from(self):
-        url = "/statistic/?from=2022-01-02"
+        url = "/statistic/?date_from=2022-01-02"
 
-        Event.objects.create(date="2022-01-01")
-        Event.objects.create(date="2022-01-02")
-        Event.objects.create(date="2022-01-03")
+        Statistic.objects.create(date="2022-01-01")
+        Statistic.objects.create(date="2022-01-02")
+        Statistic.objects.create(date="2022-01-03")
 
         expected_data = [
             {
@@ -51,11 +51,11 @@ class StatisticAPITestCase(APITestCase):
         self.assertEqual(response.data, expected_data)
 
     def test_get_with_from(self):
-        url = "/statistic/?to=2022-01-02"
+        url = "/statistic/?date_to=2022-01-02"
 
-        Event.objects.create(date="2022-01-01")
-        Event.objects.create(date="2022-01-02")
-        Event.objects.create(date="2022-01-03")
+        Statistic.objects.create(date="2022-01-01")
+        Statistic.objects.create(date="2022-01-02")
+        Statistic.objects.create(date="2022-01-03")
 
         expected_data = [
             {
@@ -83,12 +83,12 @@ class StatisticAPITestCase(APITestCase):
         self.assertEqual(response.data, expected_data)
 
     def test_get_with_from_and_to(self):
-        url = "/statistic/?from=2022-01-02&to=2022-01-03"
+        url = "/statistic/?date_from=2022-01-02&date_to=2022-01-03"
 
-        Event.objects.create(date="2022-01-01")
-        Event.objects.create(date="2022-01-02")
-        Event.objects.create(date="2022-01-03")
-        Event.objects.create(date="2022-01-04")
+        Statistic.objects.create(date="2022-01-01")
+        Statistic.objects.create(date="2022-01-02")
+        Statistic.objects.create(date="2022-01-03")
+        Statistic.objects.create(date="2022-01-04")
 
         expected_data = [
             {
@@ -135,7 +135,7 @@ class StatisticAPITestCase(APITestCase):
     def test_post_with_existing_date(self):
         url = "/statistic/"
 
-        Event.objects.create(date="2022-01-01", cost=100, clicks=100, views=100)
+        Statistic.objects.create(date="2022-01-01", cost=100, clicks=100, views=100)
 
         request_data = {
             "date": "2022-01-01",
@@ -156,14 +156,14 @@ class StatisticAPITestCase(APITestCase):
         self.assertEqual(response.data, expected_data)
 
     def test_delete_all(self):
-        url = "/statistic/?from=2022-01-02&to=2022-01-03"
+        url = "/statistic/?date_from=2022-01-02&date_to=2022-01-03"
 
-        Event.objects.create(date="2022-01-01")
-        Event.objects.create(date="2022-01-02")
-        Event.objects.create(date="2022-01-03")
-        Event.objects.create(date="2022-01-04")
+        Statistic.objects.create(date="2022-01-01")
+        Statistic.objects.create(date="2022-01-02")
+        Statistic.objects.create(date="2022-01-03")
+        Statistic.objects.create(date="2022-01-04")
 
         response = self.client.delete(url)
 
         self.assertEqual(response.status_code, HTTP_204_NO_CONTENT)
-        self.assertEqual(Event.objects.all().exists(), False)
+        self.assertEqual(Statistic.objects.all().exists(), False)
