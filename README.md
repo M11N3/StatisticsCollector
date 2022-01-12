@@ -42,8 +42,8 @@ docker-compose up --build --no-deps
    This method displays all stored statistics for all the time.
     **query_params**:
     ```
-         from:     DateField("YYYY-MM_DD")      (Optional)
-         to:       DateField("YYYY-MM_DD")      (Optional)
+         date_from:     DateField("YYYY-MM_DD")      (Optional)
+         date_to:       DateField("YYYY-MM_DD")      (Optional)
          ordering: Str(<name_ordering_field>)   (Optional)
     ```
     
